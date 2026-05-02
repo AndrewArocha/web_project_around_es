@@ -1,4 +1,4 @@
-# World Galerry
+# World Gallery
 
 ## Description
 A simple web application that allows users to edit their profile and add/remove cards using modals and form validation.
