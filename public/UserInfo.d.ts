@@ -1,14 +1,19 @@
 type UserInfoSelectors = {
     nameSelector: string;
-    descriptionSelector: string;
+    aboutSelector: string;
+    avatarSelector?: string;
 };
-type UserData = {
+export type UserData = {
     name: string;
-    description: string;
+    about: string;
+    avatar: string;
+    _id: string;
 };
 export declare class UserInfo {
     private nameElement;
-    private descriptionElement;
+    private aboutElement;
+    private avatarElement;
+    private userId;
     constructor(selectors: UserInfoSelectors);
     getUserInfo(): UserData;
     setUserInfo(userData: UserData): void;

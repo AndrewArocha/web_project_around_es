@@ -6,6 +6,7 @@ export declare class Section<T> {
         items: T[];
         renderer: (item: T) => HTMLElement;
     }, containerSelector: string);
+    setItems(items: T[]): void;
     renderItems(): void;
     addItem(element: HTMLElement): void;
     clear(): void;

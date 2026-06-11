@@ -1,22 +1,31 @@
 export class UserInfo {
     nameElement;
-    descriptionElement;
+    aboutElement;
+    avatarElement;
+    userId;
     constructor(selectors) {
         this.nameElement = document.querySelector(selectors.nameSelector);
-        this.descriptionElement = document.querySelector(selectors.descriptionSelector);
+        this.aboutElement = document.querySelector(selectors.aboutSelector);
+        this.avatarElement = selectors.avatarSelector
+            ? document.querySelector(selectors.avatarSelector)
+            : null;
+        this.userId = "";
     }
     getUserInfo() {
         return {
-            name: this.nameElement.textContent || '',
-            description: this.descriptionElement.textContent || '',
+            name: this.nameElement.textContent || "",
+            about: this.aboutElement.textContent || "",
+            avatar: this.avatarElement?.src || "",
+            _id: this.userId,
         };
     }
     setUserInfo(userData) {
-        this.nameElement.textContent =
-            userData.name;
-        this.descriptionElement.textContent =
-            userData.description;
+        this.nameElement.textContent = userData.name;
+        this.aboutElement.textContent = userData.about;
+        if (this.avatarElement) {
+            this.avatarElement.src = userData.avatar;
+        }
+        this.userId = userData._id;
     }
 }
-;
 //# sourceMappingURL=UserInfo.js.map

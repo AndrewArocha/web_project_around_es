@@ -1,247 +1,254 @@
 // IMPORTS
-import { Card, type CardData } from './Card.js';
-import { FormValidator } from './FormValidator.js';
-import { PopupWithForm } from './PopupWithForm.js';
-import { PopupWithImage } from './PopupWithImage.js';
-import { Section } from './Section.js';
-import { UserInfo } from './UserInfo.js';
-import {
-    defaultFormConfig,
-    initialCards
-} from './utils/constants.js';
+import { Card, type CardData } from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
+import { PopupWithConfirmation } from "./PopupWithConfirmation.js"; 
+import { PopupWithForm } from "./PopupWithForm.js";
+import { PopupWithImage } from "./PopupWithImage.js";
+import { Section } from "./Section.js";
+import { UserInfo, type UserData } from "./UserInfo.js";
+import { defaultFormConfig } from "./utils/constants.js";
+
+//Token & URL
+export const apiToken = "e7d43e0b-f834-466f-a655-8f26bc1474f2";
+export const apiUrl = "https://around-api.es.tripleten-services.com/v1";
 
 // DOM SELECTORS
 
-const profileModal =
-    document.querySelector(
-        '#edit-popup'
-    ) as HTMLElement;
+const profileModal = document.querySelector("#edit-popup") as HTMLElement;
 
-const nameInput =
-    profileModal.querySelector(
-        '.popup__input_type_name'
-    ) as HTMLInputElement;
+const nameInput = profileModal.querySelector(
+  ".popup__input_type_name",
+) as HTMLInputElement;
 
-const descriptionInput =
-    profileModal.querySelector(
-        '.popup__input_type_description'
-    ) as HTMLInputElement;
+const descriptionInput = profileModal.querySelector(
+  ".popup__input_type_description",
+) as HTMLInputElement;
 
-const openProfileButton =
-    document.querySelector(
-        '.profile__edit-button'
-    ) as HTMLButtonElement;
+const openProfileButton = document.querySelector(
+  ".profile__edit-button",
+) as HTMLButtonElement;
 
 // CARD SELECTORS
 
-const addCardModal =
-    document.querySelector(
-        '#new-card-popup'
-    ) as HTMLElement;
+const addCardModal = document.querySelector("#new-card-popup") as HTMLElement;
 
-const openAddCardButton =
-    document.querySelector(
-        '.profile__add-button'
-    ) as HTMLButtonElement;
+const openAddCardButton = document.querySelector(
+  ".profile__add-button",
+) as HTMLButtonElement;
 
 // FORM SELECTORS
 
-const profileForm =
-    profileModal.querySelector(
-        '.popup__form'
-    ) as HTMLFormElement;
+const profileForm = profileModal.querySelector(
+  ".popup__form",
+) as HTMLFormElement;
 
-const addCardForm =
-    addCardModal.querySelector(
-        '.popup__form'
-    ) as HTMLFormElement;
+const addCardForm = addCardModal.querySelector(
+  ".popup__form",
+) as HTMLFormElement;
 
 // CLASS INSTANCES
 
-const userInfo =
-    new UserInfo({
-        nameSelector:
-            '.profile__title',
+const userInfo = new UserInfo({
+  nameSelector: ".profile__title",
 
-        descriptionSelector:
-            '.profile__description'
+  aboutSelector: ".profile__description",
+
+  avatarSelector: ".profile__image",
+});
+
+async function loadUserInfo(): Promise<void> {
+  try {
+    const res = await fetch(`${apiUrl}/users/me`, {
+      headers: {
+        authorization: apiToken,
+      },
     });
 
-const imagePopup =
-    new PopupWithImage(
-        '#image-popup'
-    );
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status}`);
+    }
 
-imagePopup
-    .setEventListeners();
+    const data: UserData = await res.json();
 
-const section =
-    new Section<CardData>({
-        items:
-            initialCards,
+    userInfo.setUserInfo(data);
+  } catch (err) {
+    console.error(err);
+  }
+}
 
-        renderer:
-            (item) => {
+loadUserInfo();
 
-                const card =
-                    new Card(
-                        item,
-                        '#card-template',
-                        handleImageClick
-                    );
+const imagePopup = new PopupWithImage("#image-popup");
 
-                return card
-                    .generateCard();
-            }
+imagePopup.setEventListeners();
+
+const section = new Section<CardData>(
+  {
+    items: [],
+
+    renderer: (item) => {
+      const card = new Card(item, "#card-template", handleImageClick, handleDeleteClick);
+
+      return card.generateCard();
     },
+  },
 
-        '.cards__list'
-    );
+  ".cards__list",
+);
 
-const profilePopup =
-    new PopupWithForm(
-        '#edit-popup',
-        (
-            inputValues
-        ) => {
+async function loadInitialCards(): Promise<void> {
+  try {
+    const res = await fetch(`${apiUrl}/cards`, {
+      headers: {
+        authorization: apiToken,
+      },
+    });
 
-            userInfo
-                .setUserInfo({
-                    name:
-                        inputValues
-                            .name || '',
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status}`);
+    }
 
-                    description:
-                        inputValues
-                            .description || ''
-                });
+    const data: CardData[] = await res.json();
 
-            profilePopup
-                .close();
-        }
-    );
+    section.setItems(data);
 
-profilePopup
-    .setEventListeners();
+    section.renderItems();
+  } catch (err) {
+    console.error(err);
+  }
+}
 
-const addCardPopup =
-    new PopupWithForm(
-        '#new-card-popup',
-        (
-            inputValues
-        ) => {
+const profilePopup = new PopupWithForm("#edit-popup", async (inputValues) => {
+  try {
+    const res = await fetch(`${apiUrl}/users/me`, {
+      method: "PATCH",
+      headers: {
+        authorization: apiToken,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: inputValues.name || "",
+        about: inputValues.description || "",
+      }),
+    });
 
-            const card =
-                new Card(
-                    {
-                        name:
-                            inputValues[
-                                'place-name'
-                            ] || '',
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status}`);
+    }
 
-                        link:
-                            inputValues
-                                .link || ''
-                    },
+    const updatedUserData: UserData = await res.json();
 
-                    '#card-template',
+    userInfo.setUserInfo(updatedUserData);
+    profilePopup.close();
+  } catch (err) {
+    console.error(err);
+  }
+});
 
-                    handleImageClick
-                );
+profilePopup.setEventListeners();
 
-            section
-                .addItem(
-                    card
-                        .generateCard()
-                );
+const addCardPopup = new PopupWithForm("#new-card-popup", async (inputValues) => {
+  try {
+    const res = await fetch(`${apiUrl}/cards`, {
+      method: "POST",
+      headers: {
+        authorization: apiToken,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: inputValues["place-name"] || "",
+        link: inputValues.link || "",
+      }),
+    });
 
-            addCardPopup
-                .close();
-        }
-    );
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status}`);
+    }
 
-addCardPopup
-    .setEventListeners();
+    const newCardData: CardData = await res.json();
 
-function handleImageClick(
-    name: string,
-    link: string
-): void {
+    const card = new Card(newCardData, "#card-template", handleImageClick, handleDeleteClick);
 
-    imagePopup.open(
-        name,
-        link
-    );
+    section.addItem(card.generateCard());
+
+    addCardPopup.close();
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+addCardPopup.setEventListeners();
+
+function handleImageClick(name: string, link: string): void {
+  imagePopup.open(name, link);
+}
+
+const deleteCardPopup = new PopupWithConfirmation("#delete-card-popup");
+
+deleteCardPopup.setEventListeners();
+
+function handleDeleteClick(cardData: CardData, cardElement: HTMLElement): void {
+  deleteCardPopup.setSubmitCallback(async () => {
+    try {
+      const res = await fetch(`${apiUrl}/cards/${cardData._id}`, {
+        method: "DELETE",
+        headers: {
+          authorization: apiToken,
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`Error: ${res.status}`);
+      }
+
+      cardElement.remove();
+      deleteCardPopup.close();
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  deleteCardPopup.open();
 }
 
 // FORM VALIDATION
 
-const profileFormValidator =
-    new FormValidator(
-        defaultFormConfig,
-        profileForm
-    );
+const profileFormValidator = new FormValidator(defaultFormConfig, profileForm);
 
-profileFormValidator
-    .enableValidation();
+profileFormValidator.enableValidation();
 
-const addCardFormValidator =
-    new FormValidator(
-        defaultFormConfig,
-        addCardForm
-    );
+const addCardFormValidator = new FormValidator(defaultFormConfig, addCardForm);
 
-addCardFormValidator
-    .enableValidation();
+addCardFormValidator.enableValidation();
 
 // PROFILE MODAL
 
 function fillProfileForm() {
+  const userData = userInfo.getUserInfo();
 
-    const userData =
-        userInfo
-            .getUserInfo();
+  nameInput.value = userData.name;
 
-    nameInput.value =
-        userData.name;
-
-    descriptionInput.value =
-        userData.description;
+  descriptionInput.value = userData.about;
 }
 
 function handleOpenEditModal() {
+  fillProfileForm();
 
-    fillProfileForm();
+  profileFormValidator.resetValidation();
 
-    profileFormValidator
-        .resetValidation();
-
-    profilePopup
-        .open();
+  profilePopup.open();
 }
 
-openProfileButton
-    .addEventListener(
-        'click',
-        handleOpenEditModal
-    );
+openProfileButton.addEventListener("click", handleOpenEditModal);
 
 // ADD CARD MODAL
 
-openAddCardButton
-    .addEventListener(
-        'click',
-        () => {
+openAddCardButton.addEventListener("click", () => {
+  addCardFormValidator.resetValidation();
 
-            addCardFormValidator
-                .resetValidation();
-
-            addCardPopup
-                .open();
-        }
-    );
+  addCardPopup.open();
+});
 
 // INITIAL CARDS
 
-section
-    .renderItems();
+loadInitialCards();

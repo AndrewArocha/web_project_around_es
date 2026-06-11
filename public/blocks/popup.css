@@ -187,3 +187,25 @@
 .popup__input_type_error:focus {
   border-bottom: 2px solid red;
 }
+
+.popup__content_type_confirmation {
+  min-height: 181px;
+}
+
+.popup__content_type_confirmation .popup__form {
+  margin-top: 32px;
+}
+
+.popup__content_type_confirmation .popup__button {
+  margin-top: 0;
+}
+
+@media screen and (max-width: 544px) {
+  .popup__content_type_confirmation {
+    min-height: 181px;
+  }
+
+  .popup__content_type_confirmation .popup__form {
+    margin-top: 32px;
+  }
+}

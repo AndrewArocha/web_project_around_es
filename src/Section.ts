@@ -32,12 +32,18 @@ export class Section<T> {
             ) as HTMLElement;
     }
 
+    public setItems(
+        items: T[]
+    ): void {
+        this.items = items;
+    }
+
     public renderItems():
         void {
 
         this.clear();
 
-        this.items.forEach(
+        this.items.reverse().forEach(
             (item) => {
 
                 const element =

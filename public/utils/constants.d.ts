@@ -5,8 +5,4 @@ export declare const defaultFormConfig: {
     inputErrorClass: string;
     errorClass: string;
 };
-export declare const initialCards: {
-    name: string;
-    link: string;
-}[];
 //# sourceMappingURL=constants.d.ts.map
