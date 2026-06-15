@@ -1,3 +1,5 @@
+// USER INFO
+
 type UserInfoSelectors = {
   nameSelector: string;
   aboutSelector: string;

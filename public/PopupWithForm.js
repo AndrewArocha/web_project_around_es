@@ -1,4 +1,4 @@
-// PopupWithForm.ts
+// POPUP WITH FORM
 import { Popup } from './Popup.js';
 export class PopupWithForm extends Popup {
     formElement;
@@ -38,7 +38,10 @@ export class PopupWithForm extends Popup {
         super.setEventListeners();
         this.formElement.addEventListener('submit', (event) => {
             event.preventDefault();
-            this.submitCallback(this.getInputValues());
+            this.renderLoading(true);
+            Promise.resolve(this.submitCallback(this.getInputValues())).finally(() => {
+                this.renderLoading(false);
+            });
         });
     }
     close() {

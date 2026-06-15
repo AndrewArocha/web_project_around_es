@@ -1,3 +1,4 @@
+// SECTION STRUCTURE
 export class Section {
     items;
     renderer;

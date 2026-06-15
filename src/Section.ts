@@ -1,3 +1,5 @@
+// SECTION STRUCTURE
+
 export class Section<T> {
     private items: T[];
     private renderer:

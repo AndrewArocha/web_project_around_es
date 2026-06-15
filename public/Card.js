@@ -1,3 +1,4 @@
+// CARD STRUCTURE
 export class Card {
     name;
     link;

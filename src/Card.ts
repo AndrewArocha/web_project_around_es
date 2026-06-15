@@ -1,3 +1,5 @@
+// CARD STRUCTURE
+
 export interface CardData {
   name: string;
   link: string;
@@ -47,15 +49,15 @@ export class Card {
       this.handleCardClick(this.name, this.link);
     });
   }
-    private _getTemplate(): HTMLElement {
-        const template = document.querySelector(this.templateSelector) as HTMLTemplateElement;
-        return template.content.firstElementChild!.cloneNode(true) as HTMLElement;
-    }
+  private _getTemplate(): HTMLElement {
+    const template = document.querySelector(this.templateSelector) as HTMLTemplateElement;
+    return template.content.firstElementChild!.cloneNode(true) as HTMLElement;
+  }
 
-    public setLikeState(isLiked: boolean, cardElement: HTMLElement): void {
+  public setLikeState(isLiked: boolean, cardElement: HTMLElement): void {
     this.cardData.isLiked = isLiked;
     const cardLikeButton = cardElement.querySelector(".card__like-button") as HTMLButtonElement;
-    
+
     if (isLiked) {
       cardLikeButton.classList.add("card__like-button_is-active");
     } else {
@@ -63,24 +65,24 @@ export class Card {
     }
   }
 
-    public generateCard(): HTMLElement {
-        const cardElement = this._getTemplate();
-        const cardImage = cardElement.querySelector('.card__image') as HTMLImageElement;
-        const cardTitle = cardElement.querySelector('.card__title') as HTMLElement;
-        cardImage.src = this.link;
-        cardImage.alt = this.name;
-        cardTitle.textContent = this.name;
-        if (!this.link) {
-            cardImage.src = 'https://via.placeholder.com/150';
-        }
-        if (!this.name) {
-            cardTitle.textContent = 'Sin título';
-        }
-        if (this.cardData.isLiked) {
+  public generateCard(): HTMLElement {
+    const cardElement = this._getTemplate();
+    const cardImage = cardElement.querySelector('.card__image') as HTMLImageElement;
+    const cardTitle = cardElement.querySelector('.card__title') as HTMLElement;
+    cardImage.src = this.link;
+    cardImage.alt = this.name;
+    cardTitle.textContent = this.name;
+    if (!this.link) {
+      cardImage.src = 'https://via.placeholder.com/150';
+    }
+    if (!this.name) {
+      cardTitle.textContent = 'Sin título';
+    }
+    if (this.cardData.isLiked) {
       const cardLikeButton = cardElement.querySelector(".card__like-button") as HTMLButtonElement;
       cardLikeButton.classList.add("card__like-button_is-active");
-        }
-        this._setEventListeners(cardElement);
-        return cardElement;
     }
+    this._setEventListeners(cardElement);
+    return cardElement;
+  }
 }

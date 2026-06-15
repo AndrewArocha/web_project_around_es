@@ -1,3 +1,4 @@
+// USER INFO
 export class UserInfo {
     nameElement;
     aboutElement;

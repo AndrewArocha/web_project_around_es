@@ -1,4 +1,6 @@
-// Popup.ts
+// POPUP
+
+
 export class Popup {
     protected popupElement: HTMLElement;
 

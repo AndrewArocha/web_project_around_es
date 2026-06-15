@@ -1,3 +1,4 @@
+// FORM VALIDATOR
 export class FormValidator {
     form;
     inputSelector;

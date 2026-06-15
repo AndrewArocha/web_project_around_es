@@ -1,7 +1,7 @@
-// index.ts
+// INDEX
 import { Card, type CardData } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
-import { PopupWithConfirmation } from "./PopupWithConfirmation.js"; 
+import { PopupWithConfirmation } from "./PopupWithConfirmation.js";
 import { PopupWithForm } from "./PopupWithForm.js";
 import { PopupWithImage } from "./PopupWithImage.js";
 import { Section } from "./Section.js";
@@ -112,7 +112,7 @@ function handleImageClick(name: string, link: string): void {
 function handleDeleteClick(cardData: CardData, cardElement: HTMLElement): void {
   deleteCardPopup.setSubmitCallback(async () => {
     try {
-      // FIXED: Safely calling the clean Api method wrapper
+
       await api.deleteCard(cardData._id);
       cardElement.remove();
       deleteCardPopup.close();

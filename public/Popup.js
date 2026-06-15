@@ -1,4 +1,4 @@
-// Popup.ts
+// POPUP
 export class Popup {
     popupElement;
     constructor(popupSelector) {

@@ -1,3 +1,5 @@
+// FORM VALIDATOR
+
 export class FormValidator {
     private form: HTMLFormElement;
     private inputSelector: string;
@@ -52,94 +54,94 @@ export class FormValidator {
         return this.inputList.some((inputElement) => !inputElement.validity.valid);
     }
 
-private _checkInputValidity(
-    inputElement:
-        HTMLInputElement
-): void {
-
-    if (
-        !inputElement
-            .validity
-            .valid
-    ) {
-
-        let errorMessage =
-            '';
+    private _checkInputValidity(
+        inputElement:
+            HTMLInputElement
+    ): void {
 
         if (
-            inputElement
+            !inputElement
                 .validity
-                .valueMissing
+                .valid
         ) {
 
-            errorMessage =
-                'Por favor, completa este campo.';
+            let errorMessage =
+                '';
 
-        } else if (
+            if (
+                inputElement
+                    .validity
+                    .valueMissing
+            ) {
 
-            inputElement
-                .validity
-                .typeMismatch
-        ) {
+                errorMessage =
+                    'Por favor, completa este campo.';
 
-            errorMessage =
-                'Por favor, introduce una dirección web.';
+            } else if (
 
-        } else if (
+                inputElement
+                    .validity
+                    .typeMismatch
+            ) {
 
-            inputElement
-                .validity
-                .tooShort
-        ) {
+                errorMessage =
+                    'Por favor, introduce una dirección web.';
 
-            errorMessage =
-                'El campo es demasiado corto.';
+            } else if (
 
-        } else if (
+                inputElement
+                    .validity
+                    .tooShort
+            ) {
 
-            inputElement
-                .validity
-                .tooLong
-        ) {
+                errorMessage =
+                    'El campo es demasiado corto.';
 
-            errorMessage =
-                'El campo es demasiado largo.';
+            } else if (
+
+                inputElement
+                    .validity
+                    .tooLong
+            ) {
+
+                errorMessage =
+                    'El campo es demasiado largo.';
+
+            } else {
+
+                errorMessage =
+                    inputElement
+                        .validationMessage;
+            }
+
+            this
+                ._showInputError(
+                    inputElement,
+                    errorMessage
+                );
 
         } else {
 
-            errorMessage =
-                inputElement
-                    .validationMessage;
+            this
+                ._hideInputError(
+                    inputElement
+                );
         }
-
-        this
-            ._showInputError(
-                inputElement,
-                errorMessage
-            );
-
-    } else {
-
-        this
-            ._hideInputError(
-                inputElement
-            );
     }
-}
 
     private _showInputError(inputElement: HTMLInputElement, errorMessage: string): void {
-        
+
         const errorElement = this.form.querySelector(`#${inputElement.name}-error`) as HTMLElement;
 
         console.log(
-    inputElement.name,
-    errorElement
-);
+            inputElement.name,
+            errorElement
+        );
 
         inputElement.classList.add(this.inputErrorClass);
-        
+
         errorElement.textContent = errorMessage;
-        
+
         errorElement.classList.add(this.errorClass);
     }
 

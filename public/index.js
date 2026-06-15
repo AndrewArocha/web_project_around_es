@@ -1,4 +1,4 @@
-// index.ts
+// INDEX
 import { Card } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
 import { PopupWithConfirmation } from "./PopupWithConfirmation.js";
@@ -82,7 +82,6 @@ function handleImageClick(name, link) {
 function handleDeleteClick(cardData, cardElement) {
     deleteCardPopup.setSubmitCallback(async () => {
         try {
-            // FIXED: Safely calling the clean Api method wrapper
             await api.deleteCard(cardData._id);
             cardElement.remove();
             deleteCardPopup.close();

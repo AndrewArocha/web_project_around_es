@@ -1,4 +1,5 @@
-// PopupWithForm.ts
+// POPUP WITH FORM
+
 import { Popup } from './Popup.js';
 
 type FormSubmitCallback = (
@@ -9,8 +10,8 @@ export class PopupWithForm extends Popup {
     private formElement: HTMLFormElement;
     private submitCallback: FormSubmitCallback;
     private inputList: NodeListOf<HTMLInputElement>;
-    private submitButton: HTMLButtonElement; 
-    private originalButtonText: string; 
+    private submitButton: HTMLButtonElement;
+    private originalButtonText: string;
 
     constructor(
         popupSelector: string,
@@ -30,11 +31,11 @@ export class PopupWithForm extends Popup {
             this.formElement.querySelectorAll(
                 '.popup__input'
             );
-        this.submitButton = 
+        this.submitButton =
             this.formElement.querySelector(
                 '.popup__button'
             ) as HTMLButtonElement;
-            
+
         this.originalButtonText = this.submitButton.textContent || '';
     }
 
@@ -69,9 +70,15 @@ export class PopupWithForm extends Popup {
             (event: SubmitEvent) => {
                 event.preventDefault();
 
-                this.submitCallback(
-                    this.getInputValues()
-                );
+                this.renderLoading(true);
+
+                Promise.resolve(
+                    this.submitCallback(
+                        this.getInputValues()
+                    )
+                ).finally(() => {
+                    this.renderLoading(false);
+                });
             }
         );
     }
