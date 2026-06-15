@@ -200,9 +200,17 @@
   margin-top: 0;
 }
 
+.popup__content_type_avatar {
+  min-height: 272px;
+}
+
 @media screen and (max-width: 544px) {
   .popup__content_type_confirmation {
     min-height: 181px;
+  }
+
+  .popup__content_type_avatar {
+    min-height: 272px;
   }
 
   .popup__content_type_confirmation .popup__form {

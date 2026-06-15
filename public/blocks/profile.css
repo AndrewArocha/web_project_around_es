@@ -6,6 +6,17 @@
   padding: 40px 0 32px;
 }
 
+.profile__avatar-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  margin-right: 29px; 
+  flex-shrink: 0;     
+}
+
 .profile__info {
   display: grid;
   grid-template-areas:
@@ -38,12 +49,26 @@
 }
 
 .profile__image {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  background-position: center;
-  margin-right: 29px;
+  display: block;
+}
+
+.profile__avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
 }
 
 .profile__add-button {
@@ -76,6 +101,26 @@
 
 .profile__edit-button:hover {
   opacity: 0.6;
+}
+
+.profile__image-edit-button {
+  background-image: url("../images/edit-pencil_icon.svg");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  pointer-events: auto;
+}
+
+.profile__avatar-container:hover .profile__avatar-overlay {
+  opacity: 1;
+  visibility: visible;
 }
 
 @media screen and (max-width: 959px) {
@@ -120,7 +165,7 @@
     max-width: 282px;
   }
 
-  .profile__image {
+  .profile__avatar-container {
     margin-right: 0;
   }
 

@@ -9,6 +9,8 @@ export class PopupWithForm extends Popup {
     private formElement: HTMLFormElement;
     private submitCallback: FormSubmitCallback;
     private inputList: NodeListOf<HTMLInputElement>;
+    private submitButton: HTMLButtonElement; 
+    private originalButtonText: string; 
 
     constructor(
         popupSelector: string,
@@ -28,6 +30,12 @@ export class PopupWithForm extends Popup {
             this.formElement.querySelectorAll(
                 '.popup__input'
             );
+        this.submitButton = 
+            this.formElement.querySelector(
+                '.popup__button'
+            ) as HTMLButtonElement;
+            
+        this.originalButtonText = this.submitButton.textContent || '';
     }
 
     private getInputValues():
@@ -43,6 +51,14 @@ export class PopupWithForm extends Popup {
         );
 
         return inputValues;
+    }
+
+    public renderLoading(isLoading: boolean, loadingText: string = "Guardando..."): void {
+        if (isLoading) {
+            this.submitButton.textContent = loadingText;
+        } else {
+            this.submitButton.textContent = this.originalButtonText;
+        }
     }
 
     public override setEventListeners(): void {
@@ -62,9 +78,6 @@ export class PopupWithForm extends Popup {
 
     public override close(): void {
         super.close();
-
         this.formElement.reset();
-
-        
     }
 }
