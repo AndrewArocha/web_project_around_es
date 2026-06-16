@@ -1,11 +1,11 @@
 // INDEX
-import { Card, type CardData } from "./Card.js";
-import { FormValidator } from "./FormValidator.js";
-import { PopupWithConfirmation } from "./PopupWithConfirmation.js";
-import { PopupWithForm } from "./PopupWithForm.js";
-import { PopupWithImage } from "./PopupWithImage.js";
-import { Section } from "./Section.js";
-import { UserInfo, type UserData } from "./UserInfo.js";
+import { Card, type CardData } from "./components/Card.js";
+import { FormValidator } from "./components/FormValidator.js";
+import { PopupWithConfirmation } from "./components/PopupWithConfirmation.js";
+import { PopupWithForm } from "./components/PopupWithForm.js";
+import { PopupWithImage } from "./components/PopupWithImage.js";
+import { Section } from "./components/Section.js";
+import { UserInfo, type UserData } from "./components/UserInfo.js";
 import { defaultFormConfig } from "./utils/constants.js";
 import { Api } from "./Api.js";
 
