@@ -1,13 +1,13 @@
 // INDEX
-import { Card } from "./Card.js";
-import { FormValidator } from "./FormValidator.js";
-import { PopupWithConfirmation } from "./PopupWithConfirmation.js";
-import { PopupWithForm } from "./PopupWithForm.js";
-import { PopupWithImage } from "./PopupWithImage.js";
-import { Section } from "./Section.js";
-import { UserInfo } from "./UserInfo.js";
+import { Card } from "./components/Card.js";
+import { FormValidator } from "./components/FormValidator.js";
+import { PopupWithConfirmation } from "./components/PopupWithConfirmation.js";
+import { PopupWithForm } from "./components/PopupWithForm.js";
+import { PopupWithImage } from "./components/PopupWithImage.js";
+import { Section } from "./components/Section.js";
+import { UserInfo } from "./components/UserInfo.js";
 import { defaultFormConfig } from "./utils/constants.js";
-import { Api } from "./Api.js";
+import { Api } from "./components/Api.js";
 // API INSTANCE
 export const api = new Api({
     baseUrl: "https://around-api.es.tripleten-services.com/v1",
@@ -128,6 +128,7 @@ const addCardPopup = new PopupWithForm("#new-card-popup", async (rawInputValues)
     }
 });
 addCardPopup.setEventListeners();
+// CORRECTED LOADING STATE MANAGEMENT IN AVATAR POPUP
 const avatarPopup = new PopupWithForm("#avatar-popup", async (rawInputValues) => {
     const inputValues = rawInputValues;
     try {

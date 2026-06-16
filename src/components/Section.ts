@@ -45,19 +45,10 @@ export class Section<T> {
 
         this.clear();
 
-        this.items.reverse().forEach(
-            (item) => {
-
-                const element =
-                    this.renderer(
-                        item
-                    );
-
-                this.addItem(
-                    element
-                );
-            }
-        );
+        [...this.items].reverse().forEach((item) => {
+            const element = this.renderer(item);
+            this.addItem(element);
+        });
     }
 
     public addItem(

@@ -65,22 +65,10 @@ export class PopupWithForm extends Popup {
     public override setEventListeners(): void {
         super.setEventListeners();
 
-        this.formElement.addEventListener(
-            'submit',
-            (event: SubmitEvent) => {
-                event.preventDefault();
-
-                this.renderLoading(true);
-
-                Promise.resolve(
-                    this.submitCallback(
-                        this.getInputValues()
-                    )
-                ).finally(() => {
-                    this.renderLoading(false);
-                });
-            }
-        );
+        this.formElement.addEventListener('submit', (event: SubmitEvent) => {
+            event.preventDefault();
+            this.submitCallback(this.getInputValues());
+        });
     }
 
     public override close(): void {

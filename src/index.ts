@@ -7,7 +7,7 @@ import { PopupWithImage } from "./components/PopupWithImage.js";
 import { Section } from "./components/Section.js";
 import { UserInfo, type UserData } from "./components/UserInfo.js";
 import { defaultFormConfig } from "./utils/constants.js";
-import { Api } from "./Api.js";
+import { Api } from "./components/Api.js";
 
 // API INSTANCE
 export const api = new Api({
@@ -164,6 +164,8 @@ const addCardPopup = new PopupWithForm("#new-card-popup", async (rawInputValues)
   }
 });
 addCardPopup.setEventListeners();
+
+// CORRECTED LOADING STATE MANAGEMENT IN AVATAR POPUP
 
 const avatarPopup = new PopupWithForm("#avatar-popup", async (rawInputValues) => {
   const inputValues = rawInputValues as AvatarFormValues;
